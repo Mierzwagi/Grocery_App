@@ -6,7 +6,7 @@ module.exports = {
     .withMessage('Please provide a valid email address'),
 
     validateName: check('name')
-    .isLength({min: 8})
+    .isLength({min: 3})
     .withMessage('Name must be at least 8 characters long'),
 
     validatePassword: check('password')

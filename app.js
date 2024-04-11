@@ -6,7 +6,7 @@ const authRoutes = require( './routes/userRoutes.js' );
 //Banco de dados
 const db = require('./db/connection.js')
 
-
+//bory parser
 app.use(bodyParser.json())
 app.use(express.json())
 
