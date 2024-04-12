@@ -21,6 +21,9 @@ db.authenticate()
     console.log('Erro ao conectar com o banco de dados: ', error)
 })
 
+//sinroniza os 'models' com o db
+db.sync() // ({force: true})
+
 
 app.listen(1111, () =>{
     console.log('Servidor no ar')

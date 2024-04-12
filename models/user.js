@@ -11,7 +11,7 @@ const User = db.define('user', {
     password: {
         type: Sequelize.STRING
     },
-    
+
 })
 
 //exportarpara ser utilizado

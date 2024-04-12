@@ -2,42 +2,45 @@ const { validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
 const router = require("../routes/userRoutes");
+const { where } = require("sequelize");
 //const jwt = require( 'jsonwebtoken');
 
-exports.signUpUser = (req, res, next) => {
+exports.signUpUser = async (req, res, next) => {
   // Erro no terminal
   const errors = validationResult(req);
   console.log(errors);
 
-  let { email, name, password } = req.body;
+  const { email, name, password } = req.body;
 
   if (!errors.isEmpty()) {
     return res
       .status(422)
       .send({ error: true, message: errors.array()[0].msg });
   }
-  //Validação simples se todos os campos foram prenchidos
-  /*  if (!email || !name  || !password ) {
-        return res.status(400).json({ error: true, msg: 'Envie os dados corretos' });
-    } */
 
-  /*    res.status(200).json({
-        user: {
-            email: email,
-            name: name,
-            passworld: password
-        }
-    })  */
+  const pass = await bcrypt.hash(password, 12)
 
-  console.log(name, email, password);
-  const user = new User();
-  user
-    .create({
-      name,
-      email,
-      password,
-    })
-    .then((user) => {
+  const user = new User({
+    email: email,
+    name: name,
+    password: pass
+  })
+
+  console.log(name, email, pass);
+
+  /* const user = new User(req.body); */
+  /* user.findOne({where : {email : email}})
+    .then(user => {
+      console.log(user)
+      if (user) {
+        res.status(400).json({
+          message: "Este useário já existe!"
+        });
+      }
+
+    }) */
+
+  user.save().then((user) => {
       res.status(200).json({
         message: "Usuário cadastrado com secesso!",
         result: user,
@@ -49,23 +52,41 @@ exports.signUpUser = (req, res, next) => {
         result: error,
       });
     });
-  /* const user = new User({
-    email: email,
-    name: name,
-    password: password,
-  });
-  user
-    .create()
-    .then((user) => {
-      res.status(200).json({
-        message: "Usuário cadastrado com secesso!",
-        result: user,
-      });
+};
+
+exports.loginUser = (req, res, next) => {
+  const { email, password } = req.body;
+
+  User.findOne({ where: { email: email } })
+    .then(async user => {
+      console.log(user)
+      if (!user) {
+        res.status(422).json({
+          message: "E-mail inválio!"
+        })
+      }
+
+      console.log(user.dataValues.password);
+
+      await bcrypt.compare(password, user.dataValues.password)
+      .then(passHash => {
+        if (!passHash) {
+          res.status(401).json({
+            message: "Senha inválida!"
+          })
+        }
+
+       /*  const token = jwt.sign({
+          email: user.email,
+          userId: user._id.toString()
+        }, 'KeyToken')
+ */
+        res.status(200).json({
+          message: "Usuário logado com sucesso!",
+          result: user
+
+        })
+      })
     })
-    .catch((error) => {
-      res.status(500).json({
-        message: "Erro ao cadastrado o Usuário!",
-        result: error,
-      });
-    }) */
+
 };

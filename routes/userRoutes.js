@@ -4,5 +4,6 @@ const { validateEmail, validateName, validatePassword } = require('../services/v
 const router = express.Router();
 
 router.post('/signup', [validateEmail, validateName, validatePassword], auth.signUpUser)
+router.post('/login', [validateEmail, validatePassword], auth.loginUser)
 
 module.exports = router;
