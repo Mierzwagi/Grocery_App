@@ -20,38 +20,35 @@ exports.signUpUser = async (req, res, next) => {
 
   const pass = await bcrypt.hash(password, 12)
 
-  const user = new User({
-    email: email,
-    name: name,
-    password: pass
-  })
+  const userNew = new User(req.body)
 
   console.log(name, email, pass);
 
   /* const user = new User(req.body); */
-  /* user.findOne({where : {email : email}})
+  User.findOne({where : {email : email}})
     .then(user => {
       console.log(user)
       if (user) {
-        res.status(400).json({
+        return res.status(400).json({
           message: "Este useário já existe!"
         });
       }
-
-    }) */
-
-  user.save().then((user) => {
-      res.status(200).json({
-        message: "Usuário cadastrado com secesso!",
-        result: user,
+      userNew.save().then((user) => {
+        res.status(200).json({
+          message: "Usuário cadastrado com secesso!",
+          result: user,
+        });
+      })
+      .catch((error) => {
+    return    res.status(500).json({
+          message: "Erro ao cadastrado o Usuário!",
+          result: error,
+        });
       });
+
     })
-    .catch((error) => {
-      res.status(500).json({
-        message: "Erro ao cadastrado o Usuário!",
-        result: error,
-      });
-    });
+
+ 
 };
 
 exports.loginUser = (req, res, next) => {
