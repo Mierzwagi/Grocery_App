@@ -3,14 +3,17 @@ const app = express();
 const bodyParser = require( 'body-parser' );
 const router = express.Router();
 const authRoutes = require( './routes/userRoutes.js' );
+const productsRoutes = require( './routes/productsRoutes.js' );
 //Banco de dados
-const db = require('./db/connection.js')
+const db = require('./db/connection.js');
 
 //bory parser
 app.use(bodyParser.json())
 app.use(express.json())
 
 app.use('/auth', authRoutes)
+app.use('/products', productsRoutes)
+
 
 // db connection = conexão cm o banco
 db.authenticate()
@@ -22,7 +25,7 @@ db.authenticate()
 })
 
 //sinroniza os 'models' com o db
-db.sync() // ({force: true})
+db.sync(); // ({force: true})
 
 
 app.listen(1111, () =>{

@@ -1,15 +1,19 @@
 const { validationResult } = require("express-validator");
-const bcrypt = require("bcrypt");
-const User = require("../models/user");
-const router = require("../routes/userRoutes");
-const { where } = require("sequelize");
+const Products = require("../models/products");
+const Categorias = require("../models/categorias");
 //const jwt = require( 'jsonwebtoken');
 
-exports.getProducts = (rew, res, next) => {
+
+exports.getProducts = async(req, res, nex) => {
+    const products = await Products.findAll()
+    res.status(200).json({
+        message: "Produtos encontrados com sucesso!",
+        result: products,
+    });
 
 }
 
-exports.creatProducts = (rew, res, next) => {
+exports.creatProducts = (req, res, next) => {
 
     const errors = validationResult(req);
     console.log(errors);
@@ -19,14 +23,60 @@ exports.creatProducts = (rew, res, next) => {
             .send({ error: true, message: errors.array()[0].msg });
     }
 
+    const products = new Products (req.body)
+    console.log(products);
 
+    products.save().then((result) => {
+        res.status(200).json({
+          message: "Produto criado com sucesso!!",
+          result: result,
+        });
+      }).catch((error) => {
+        return  res.status(500).json({
+              message: "Erro ao criar o produto!",
+              result: error,
+            });
+          });
+    console.log(products)
 
 }
 
-exports.createCategories = (rew, res, next) => {
+exports.createCategories = (req, res, next) => {
+    const errors = validationResult(req);
+    console.log(errors);
+    if (!errors.isEmpty()) {
+        return res
+            .status(422)
+            .send({ error: true, message: errors.array()[0].msg });
+    }
 
+    const categoria = new Categorias (req.body)
+    console.log(categoria);
+
+    categoria.save().then((result) => {
+        res.status(200).json({
+          message: "Categoria criado com sucesso!!",
+          result: result,
+        });
+      }).catch((error) => {
+        return  res.status(500).json({
+              message: "Erro ao criar a categoria!",
+              result: error,
+            });
+          });
+    console.log(categoria)
 }
 
-exports.favProduct = (rew, res, next) => {
-
+exports.getCategorias = async(req, res, next) => {
+    const categoria = await Categorias.findAll()
+    res.status(200).json({
+        message: "Categorias encontradas com sucesso!",
+        result: categoria,
+    });
 }
+
+
+/* exports.favProduct = async(req, res, next) => {
+
+
+} */
