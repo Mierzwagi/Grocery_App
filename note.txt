@@ -1,0 +1,2 @@
+USE quitanda;
+DROP TABLE categorias
