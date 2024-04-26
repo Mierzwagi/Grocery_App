@@ -18,6 +18,18 @@ app.use(express.json());
 app.use("/auth", authRoutes);
 app.use("/products", productsRoutes);
 
+//Está interceptando os erros 
+app.use((error, req, res, next) => {
+  const message = error.message;
+  const status = error.statusCode || 500;
+  const data = error.data;
+
+  console.log(message)
+
+  res.status(status).json({ message: message, error: data })
+})
+
+
 // db connection = conexão cm o banco
 db.authenticate()
   .then(() => {
