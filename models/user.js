@@ -17,6 +17,9 @@ const User = db.define("user", {
   password: {
     type: Sequelize.STRING,
   },
+  admin: {
+    type: Sequelize.BOOLEAN,
+  },
 });
 
 //exportarpara ser utilizado

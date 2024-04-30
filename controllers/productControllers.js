@@ -2,9 +2,10 @@ const { validationResult } = require("express-validator");
 const Products = require("../models/products");
 const Categorias = require("../models/categorias");
 const Favoritos = require("../models/favoritos");
+const User = require("../models/user");
 //const jwt = require( 'jsonwebtoken');
 
-exports.getProducts = async (req, res, nex) => {
+exports.getProducts = async (req, res, next) => {
   const products = await Products.findAll();
   res.status(200).json({
     message: "Produtos encontrados com sucesso!",
@@ -13,6 +14,13 @@ exports.getProducts = async (req, res, nex) => {
 };
 
 exports.creatProducts = (req, res, next) => {
+/*   if (User.admin == false) {
+    const error = new Error
+    res.status(200).json({
+      message: "Só admim!",
+      result: error
+    });
+  } */
   const errors = validationResult(req);
   console.log(errors);
   if (!errors.isEmpty()) {

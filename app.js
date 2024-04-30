@@ -9,7 +9,7 @@ const db = require("./db/connection.js");
 const Products = require("./models/products.js");
 const Categorias = require("./models/categorias.js");
 const Favoritos = require("./models/favoritos.js");
-const User = require("./models/user.js")
+const User = require("./models/user.js");
 
 //bory parser
 app.use(bodyParser.json());
@@ -18,17 +18,16 @@ app.use(express.json());
 app.use("/auth", authRoutes);
 app.use("/products", productsRoutes);
 
-//Está interceptando os erros 
+//Está interceptando os erros
 app.use((error, req, res, next) => {
   const message = error.message;
   const status = error.statusCode || 500;
   const data = error.data;
 
-  console.log(message)
+  console.log(message);
 
-  res.status(status).json({ message: message, error: data })
-})
-
+  res.status(status).json({ message: message, error: data });
+});
 
 // db connection = conexão cm o banco
 db.authenticate()
@@ -50,7 +49,6 @@ Categorias.hasMany(Products);
 //Associação dos Categorias com os Produdos
 Favoritos.belongsTo(User);
 Favoritos.belongsTo(Products);
-
 
 app.listen(1111, () => {
   console.log("Servidor no ar");

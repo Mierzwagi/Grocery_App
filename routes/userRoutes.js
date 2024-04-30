@@ -9,4 +9,5 @@ router.post( "/signup", [validateEmail, validateName, validatePassword], auth.si
 router.post("/login", [validateEmail, validatePassword], auth.loginUser);
 router.post("/favoritos", isAuth, products.favProduct);
 
+
 module.exports = router;
