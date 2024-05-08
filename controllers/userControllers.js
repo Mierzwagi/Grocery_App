@@ -1,8 +1,6 @@
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
-const router = require("../routes/userRoutes");
-const { where } = require("sequelize");
 const jwt = require("jsonwebtoken");
 
 exports.signUpUser = async (req, res, next) => {

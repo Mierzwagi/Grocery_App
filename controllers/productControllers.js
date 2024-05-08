@@ -3,7 +3,6 @@ const Products = require("../models/products");
 const Categorias = require("../models/categorias");
 const Favoritos = require("../models/favoritos");
 const User = require("../models/user");
-//const jwt = require( 'jsonwebtoken');
 
 exports.getProducts = async (req, res, next) => {
   const products = await Products.findAll();
@@ -14,13 +13,13 @@ exports.getProducts = async (req, res, next) => {
 };
 
 exports.creatProducts = (req, res, next) => {
-/*   if (User.admin == false) {
-    const error = new Error
+  if (req.admin == false) {
+    const error = new Error();
     res.status(200).json({
       message: "Só admim!",
-      result: error
+      result: error,
     });
-  } */
+  }
   const errors = validationResult(req);
   console.log(errors);
   if (!errors.isEmpty()) {
@@ -50,6 +49,14 @@ exports.creatProducts = (req, res, next) => {
 };
 
 exports.createCategories = (req, res, next) => {
+  if (req.admin == false) {
+    const error = new Error();
+    res.status(200).json({
+      message: "Só admim!",
+      result: error,
+    });
+  }
+
   const errors = validationResult(req);
   console.log(errors);
   if (!errors.isEmpty()) {

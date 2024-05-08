@@ -1,4 +1,4 @@
-//Aplicaçã para utilizar bancos relacionais
+//Aplicação para utilizar bancos relacionais
 const Sequelize = require('sequelize');
 
 //Criando instancia do sequilize
