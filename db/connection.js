@@ -1,8 +1,9 @@
 //Aplicação para utilizar bancos relacionais
+require("dotenv").config();
 const Sequelize = require('sequelize');
 
 //Criando instancia do sequilize
-const sequelize = new Sequelize('quitanda', 'root', 'root',{
+const sequelize = new Sequelize('quitanda', process.env.DB_PASSWORD, 'root',{
     //Dialetq = qual banco utilizado e onde está
     dialect: 'mysql',
 
@@ -10,5 +11,5 @@ const sequelize = new Sequelize('quitanda', 'root', 'root',{
 
 
 
-//Exportar o arquivo de configuraçã do banco
+//Exportar o arquivo de configuração do banco
 module.exports = sequelize
