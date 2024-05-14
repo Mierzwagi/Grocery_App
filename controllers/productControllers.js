@@ -13,9 +13,9 @@ exports.getProducts = async (req, res, next) => {
 };
 
 exports.creatProducts = (req, res, next) => {
-  if (req.admin == false) {
+  if (req.admin === false) {
     const error = new Error();
-    res.status(200).json({
+     return res.status(401).json({
       message: "Só admim!",
       result: error,
     });
@@ -49,9 +49,10 @@ exports.creatProducts = (req, res, next) => {
 };
 
 exports.createCategories = (req, res, next) => {
-  if (req.admin == false) {
+  console.log("req.admin:", req.admin);
+  if (req.admin === false) {
     const error = new Error();
-    res.status(200).json({
+    return res.status(401).json({
       message: "Só admim!",
       result: error,
     });

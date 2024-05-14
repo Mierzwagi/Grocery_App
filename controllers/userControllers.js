@@ -19,8 +19,8 @@ exports.signUpUser = async (req, res, next) => {
   const pass = await bcrypt.hash(password, 12);
 
   const userNew = new User(req.body);
-  
-  userNew.password = pass
+
+  userNew.password = pass;
   userNew.admin = false; //Não autorizando o user ser Admim
 
   console.log(name, email, pass);
@@ -36,7 +36,7 @@ exports.signUpUser = async (req, res, next) => {
     userNew
       .save()
       .then((user) => {
-        user.password = undefined
+        user.password = undefined;
         res.status(200).json({
           message: "Usuário cadastrado com sucesso!",
           result: user,
@@ -53,7 +53,7 @@ exports.signUpUser = async (req, res, next) => {
 
 exports.loginUser = (req, res, next) => {
   const { email, password } = req.body;
-  
+
   User.findOne({ where: { email: email } }).then(async (user) => {
     console.log(user);
     if (!user) {
@@ -63,7 +63,7 @@ exports.loginUser = (req, res, next) => {
     }
 
     console.log(user.dataValues.password);
-    
+
     await bcrypt
       .compare(password, user.dataValues.password)
       .then((passHash) => {
@@ -78,6 +78,7 @@ exports.loginUser = (req, res, next) => {
           {
             email: user.email,
             userId: user._id,
+            admin: user.admin,
           },
           "KeyToken",
           { expiresIn: "1h" }

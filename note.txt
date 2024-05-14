@@ -1,2 +1,3 @@
 USE quitanda;
 DROP TABLE categorias
+DROP DATABASE quitanda

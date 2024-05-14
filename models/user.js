@@ -19,6 +19,7 @@ const User = db.define("user", {
   },
   admin: {
     type: Sequelize.BOOLEAN,
+    autoIncrement: false
   },
 });
 

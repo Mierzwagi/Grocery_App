@@ -29,5 +29,6 @@ module.exports = (req, res, next) => {
   }
 
   req.userId = authToken.userId;
+  req.admin = authToken.admin;
   next();
 };
